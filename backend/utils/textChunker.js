@@ -114,7 +114,7 @@ chunks.push({
                      * @returns {Array<Object>}
                      
                      */
-                    export const findRElevantChunks=(chunks,query,maxChunks=3)=>{
+                    export const findRelevantChunks=(chunks,query,maxChunks=3)=>{
                         if(!chunks||chunks.length===0||!query){
                             return[];
                         }

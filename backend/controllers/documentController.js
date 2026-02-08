@@ -1,8 +1,8 @@
 import Document from '../models/Document.js';
-import Flashcard from './models/Flashcard.js';
+import Flashcard from '../models/Flashcard.js';
 import Quiz from '../models/Quiz.js';
 import { chunkTest } from '../utils/textChunker.js';
-import {extractTextFromPDF} from '../utils/textChunker.js';
+import {extractTextFromPDF} from '../utils/pdfParser.js';
 import fs from 'fs/promises';
 import mongoose from 'mongoose';
 
@@ -10,7 +10,7 @@ export const uploadDocument=async(req,resizeBy,next)=>{
     try{
 if(!req.file){
     return res.sttaus(400).json({
-        success:false;
+        success:false,
         error:"plaese upload a pdf file",
         sttausCode:400
     });
@@ -46,7 +46,7 @@ processPDF(document._id,req.file.path).catch(arr=>{
 res.status(201).json({
     success:true,
     data:document,
-    message:'Documnet uploaded successfully processing in process';
+    message:'Documnet uploaded successfully processing in process',
 });
 }
     catch(error){
@@ -87,15 +87,115 @@ const processPDF=async(documentId,filePath)=>{
 };
 export const getDocuments=async(req,res,next)=>{
 
+try{
+const documents=await Document.aggregate([
+{
+$match:{userId:new mongoose>Types.ObjectId(req.user._id)}
+},
+{
+$lookup:{
+from:'flashcards',
+localField:'_id',
+foreignField:'documentId',
+as:'quizzes'
+}
+},
+{
+$addField:{
+flashcardCount:{$size: '$flsshcardSets'},
+quizCount:{$size:'$quizzes'}
+}
+},
+{
+$project:{
+extractedText:0,
+chunks:0,
+flashcardSets:0,
+quizzes:0
+}
+},
+{
+$sort:{uploadDate:-1}
+}
+]);
+}
+catch (error) {
+next(error);
+}
 };
+
 
 export const getDocument=async(req,res,next)=>{
 
+    try{
+        const document=await Document.findOne({
+            _id:req.param.id,
+userId:req.user._id
+        });
+        if(!document){
+            return res.status(404).json({
+                success:false,
+                error:'documnet not found',
+                statusCode:404
+            });
+        }
+        //get counts of associated flashCards and quizzes
+        const flashcradCount=await Flashcard.countDocument({documentId:document._id,userId:req.user._id});
+        const quizCount=await Quiz.countDocuments({documentId:document._id,userId:req.user._id});
+        
+        //uplaod last accessesd
+        document.lastAccessed=Date.now();
+        await document.save();
+
+        //combine document data with counts
+        const documentData=document.toObject();
+        documentData.flashcardCount=flashcardCount;
+        documentData.quizCount=quizCount;
+        res.status(200).json({
+            success:true,
+            data:documentData
+        });
+  
+    }
+
+
+
+    catch(arror){
+        next(arror);
+    }
 
 };
 
 export const deleteDocument=async(req,res,next)=>{
 
+
+    try{
+        const document=await Document.findone({
+            _id:req.params.id,
+            userId:req.user._id
+        });
+
+        if(!document){
+            return res.status(404).json({
+                success:false,
+                error:'document not found',
+                sttausCode:404
+            });
+        }
+        await fs.unlink(document.filePath).catch(()=>{
+
+        });
+
+        //delete document
+        await document.deleteOne();
+        res.status(200).json({
+            success:true,
+            message:'document deleted successfully'
+        });
+    }
+    catch(error){
+        next(error);
+    }
 };
 
 export const updatedocument=async(req,res,next)=>{

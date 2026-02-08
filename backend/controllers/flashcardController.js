@@ -143,7 +143,7 @@ if(!flashcardSet){
 }
 await flashcardSet.deleteOne();
 res.status(200).json({
-    success:true;
+    success:true,
     message:"flashcard set deleted successfully"
 });
     }
