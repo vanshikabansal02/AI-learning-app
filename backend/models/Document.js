@@ -6,16 +6,16 @@ import mongoose from 'mongoose'
         required:true,
     },
     title:{
-        type:string,
+        type:String,
         required:[true,'please provide a document title'],
         trim:true,
     },
     fileName:{
-        type:string,
+        type:String,
         required:true
     },
     filePath:{
-        type:string,
+        type:String,
         required:true
     },
     fileSize:{
@@ -24,17 +24,17 @@ import mongoose from 'mongoose'
 
     },
     extractedText:{
-        typr:string,
-        default:''
+        type:String,
+        default:""
     },
     chunks:[{
         content:{
-            type:string,
+            type:String,
             required:true
         },
         pageNumber:{
             type:Number,
-            defaulr:0
+            default:0
         },
         chunkIndex:{
             type:Number,
@@ -42,7 +42,7 @@ import mongoose from 'mongoose'
         }
     }],
     uploadDate:{
-        type:date,
+        type:Date,
         default:Date.now
     },
     lastAccessed:{
@@ -50,9 +50,9 @@ import mongoose from 'mongoose'
         default:Date.now
     },
     status:{
-        type:string,
+        type:String,
         enum:['processing','ready','failed'],
-        default:'processing'
+        default:"processing"
     }
 
 

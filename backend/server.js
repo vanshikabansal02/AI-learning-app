@@ -66,6 +66,6 @@ app.listen(PORT,()=>{
 
 });
 process.on('unhandledRejection',(err)=>{
-    console.error(`Error:${err.meassage}`);
+    console.error(`Error:${err.message}`);
     process.exit(1);
 })

@@ -14,10 +14,10 @@ const flashcardSchema=new mongoose.Schema({
 
     cards:[
         {
-            question:{type:string,equired:true},
-            answer:{type:string,required:true},
+            question:{type:String,required:true},
+            answer:{type:String,required:true},
             difficulty:{
-                typr:string,
+                type:String,
                 enum:["easy","medium","hard"],
                 default:"medium",
             },
@@ -26,11 +26,11 @@ const flashcardSchema=new mongoose.Schema({
                 default:null,
             },
             reviewCount:{
-                type:NUmber,
+                type:Number,
                 default:0,
             },
             isStarted:{
-                typ:boolean,
+                type:Boolean,
                 default:false,
             },
 

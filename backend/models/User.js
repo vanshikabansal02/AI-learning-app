@@ -30,7 +30,7 @@ const userSchema=new mongoose.Schema({
 
 //hash password before saving
 userSchema.pre('save',async function(next){
-    if(!this.isModeified('password')){
+    if(!this.isModified('password')){
         next();
     }
     const salt=await bcrypt.genSalt(10);
@@ -38,8 +38,8 @@ userSchema.pre('save',async function(next){
 });
 
 //compare pssword methid
-userSchema.methids.matchPassword=async function(enteredPassword){
-    return await bcrypt.compare(enteredPasssword,this.password);
+userSchema.methods.matchPassword=async function(enteredPassword){
+    return await bcrypt.compare(enteredPassword,this.password);
 
 };
 const User=mongoose.model('User',userSchema)

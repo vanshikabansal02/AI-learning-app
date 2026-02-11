@@ -13,7 +13,7 @@ const quizSchema=new mongoose.Schema({
 
     },
     title:{
-        typr:String,
+        type:String,
         required:true,
         trim:true
     },
@@ -25,22 +25,22 @@ const quizSchema=new mongoose.Schema({
         },
 
 option:{
-    type:[string],
+    type:[String],
     required:true,
     validate:[array=>array.length===4,"must have exactly 4 options"]
 
 },
 correctAnswer:{
-    typr:string,
+    type:String,
     required:true
 },
 explanation:{
-    type:string,
+    type:String,
     default:""
 
 },
 difficulty:{
-    type:string,
+    type:String,
     enum:['easy','medium','hard'],
     default:'medium'
 }
@@ -52,7 +52,7 @@ difficulty:{
             required:true,
         },
         selectedAnswer:{
-            typr:string,
+            type:String,
             required:true,
         },
         isCorrect:{
@@ -60,16 +60,16 @@ difficulty:{
             required:true,
         },
         answeredAt:{
-            typr:Date,
+            type:Date,
             default:Date.now
         }
     }],
     score:{
-        type:number,
+        type:Number,
         default:0
     },
     totalQuestions:{
-type:numsber,
+type:Number,
 required:true,
     },
     completedAt:{

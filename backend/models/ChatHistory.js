@@ -13,21 +13,21 @@ documentId:{
 },
 messages:[{
 role:{
-    type:string,
+    type:String,
     enum:['user','assistant'],
     required:true
 },
 content:{
-    type:string,
+    type:String,
     required:true,
 
 },
 timestamp:{
-    type:date,
+    type:Date,
     default:Date.now
 },
 relevantChunks:{
-    type:[number],
+    type:[Number],
     defualt:[]
 }
 

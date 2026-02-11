@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import User from '../model/User.js'
+import User from '../models/User.js';
  //generate jwt token
  const generateToken=(id)=>{
     return jwt.sign({id},process.env.JWT_SECRET,{
@@ -15,7 +15,7 @@ import User from '../model/User.js'
   try{
  const{username,email,password}=req.body;
 
- const userExists=await User.findone({$or:[{email}]});
+ const userExists=await User.findOne({$or:[{email},{username}]});
 
  if(userExists){
     return res.status(400).json({
@@ -43,12 +43,12 @@ const token=generateToken(user._id);
             id:user._id,
             username:user.username,
             email:user.email,
-            profieImage:user.profileImage,
+            profileImage:user.profileImage,
             createdAt:user.createdAt,
         },
         token,
     },
-    meassage:"user registered succesfully",
+    message:"user registered succesfully",
  });
 
   }catch(error){
@@ -77,7 +77,7 @@ const user=await User.findOne({email}).select("+password");
 
 if(!user){
   return res.status(401).json({
-    success:falsw,
+    success:false,
     erroe:"invalid credentitails",
     statusCode:401,
   });
@@ -86,7 +86,7 @@ if(!user){
 const isMatch=await user.matchPassword(password);
 
 if(!isMatch){
-  return res.sttaus(401).json({
+  return res.status(401).json({
     success:false,
     error:'invalid credentitails',
     statusCode:401,
@@ -125,7 +125,7 @@ res.status(200).json({
       id:user._id,
       username:user.username,
       email:user.email,
-      profieImage:user.profileImage,
+      profileImage:user.profileImage,
       createdAt:user.createdAt,
       updatedAt:user.updatedAt,
     },
@@ -147,7 +147,7 @@ res.status(200).json({
 
     if(username) user.username=username;
     if(email)user.email=email;
-    if(profileImage)user.profileImage=profieImage;
+    if(profileImage)user.profileImage=profileImage;
 
     await user.save();
 
@@ -157,7 +157,7 @@ res.staus(200).json({
     id:user._id,
     username:user.username,
     email:user.email,
-    profileImage:user.profieImage,
+    profileImage:user.profileImage,
 
 
   },

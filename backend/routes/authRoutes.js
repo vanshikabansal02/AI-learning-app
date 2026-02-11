@@ -1,7 +1,8 @@
 import express from 'express'
 import {body} from 'express-validator'
 import protect from '../middleware/auth.js'
-//import { register,login,getProfile,updateProfile,changePassword} from '../middleware/auth.js'
+import { register,login,getProfile,updateProfile,changePassword
+} from '../controllers/authController.js';
 
 
 

@@ -9,10 +9,10 @@ import mongoose from 'mongoose';
 export const uploadDocument=async(req,resizeBy,next)=>{
     try{
 if(!req.file){
-    return res.sttaus(400).json({
+    return res.status(400).json({
         success:false,
         error:"plaese upload a pdf file",
-        sttausCode:400
+        statusCode:400
     });
 }
 
@@ -72,7 +72,7 @@ const processPDF=async(documentId,filePath)=>{
         await Document.findByIdAndUpdate(documentId,{
             extractedText:text,
             chunka:chunks,
-            sttaus:'ready'
+            status:'ready'
         });
         console.log(`document ${documentId} processed successfully`);
 
@@ -170,7 +170,7 @@ export const deleteDocument=async(req,res,next)=>{
 
 
     try{
-        const document=await Document.findone({
+        const document=await Document.findOne({
             _id:req.params.id,
             userId:req.user._id
         });
@@ -179,7 +179,7 @@ export const deleteDocument=async(req,res,next)=>{
             return res.status(404).json({
                 success:false,
                 error:'document not found',
-                sttausCode:404
+                statusCode:404
             });
         }
         await fs.unlink(document.filePath).catch(()=>{

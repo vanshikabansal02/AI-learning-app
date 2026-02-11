@@ -23,7 +23,7 @@ const protect=async(req,res,next)=>{
             next();
         }
         catch(error){
-            console.error('auth middleware error:',error.meassage);
+            console.error('auth middleware error:',error.message);
 
             if(error.name==='tokenexpiredError'){
                 return res.status(401).json({
@@ -50,3 +50,4 @@ if(!token){
 };
            
 export default protect;
+

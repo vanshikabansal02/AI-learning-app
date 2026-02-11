@@ -177,7 +177,7 @@ const relevantChunks=findRelevantChunks(document.chunks,question,3);
 const chunkIndices=relevantChunks.map(c=>c.chunkIndex);
 
 //get or create cha history
-let chatHistory=await ChatHistory.findone({
+let chatHistory=await ChatHistory.findOne({
     userId:req.user._is,
     documnetId:document._id,
 });

@@ -4,9 +4,9 @@ import { fileURLToPath } from 'url';
 import fs from 'fs';
 
 const __filename=fileURLToPath(import.meta.url);
-const __dirname=path.dirname(--filename);
+const __dirname=path.dirname(__filename);
 
-const uploadDir=path.join(--dirname, '../upload/documents');
+const uploadDir=path.join(__dirname, '../upload/documents');
 if(!fs.existsSync(uploadDir)){
     fs.mkdirSync(uploadDir,{recursive:true});
 }
@@ -17,7 +17,7 @@ const storage=multer.diskStorage({
     destination:(req,file,cb)=>{
         cb(null,uploadDir);
     },
-    filename:(req,res,cb)=>{
+    filename:(req,file,cb)=>{
         const uniqueSuffux=Date.now()+ '-'+ Math.round(Math.random()*1E9);
         cb(null,`${uniqueSuffux}-${file.originalName}`);
 
@@ -26,7 +26,7 @@ const storage=multer.diskStorage({
 
 //file filter -only pdfs
 
-const fileFilter=(req,res,cb)=>{
+const fileFilter=(req,file,cb)=>{
     if(file.minetype==='application/pdf'){
         cb(null,true);
     
