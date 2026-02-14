@@ -7,16 +7,16 @@ import DashboardPage from './pages/Dashboard/DashboardPage';
 import ProtectedRoutes from './components/auth/ProtectedRoutes';
 import DocumentDetailPage from './pages/Documents/DocumentDetailPage';
 import DocumentListPage from './pages/Documents/DocumentListPage';
-import flashcardsListPage from './pages/Flashcard/FlashcardListPage';
-import FlashcardPage from './pages/Flashcard/flashcardPage';
+import FlashcardListPage from './pages/Flashcard/FlashcardListPage';
+import FlashcardPage from './pages/Flashcard/FlashcardPage';
 import QuizTakePage from './pages/Quizzes/QuixTakePage';
 import QuizResultPage from './pages/Quizzes/QuizResultPage';
 import ProfilePage from './pages/Profile/ProfilePage';
-
+import { useAuth } from './context/AuthContext';
 const App = () => {
- const isAuthenticated=false
+  const {isAuthenticated,loading}=useAuth()
  
- const loading =false
+
  
  if(loading){
   return (
@@ -36,12 +36,12 @@ const App = () => {
       <Route path="/register" element={<RegisterPage/>}/>
 
       {/*Protected routes*/}
-      <Route element={<ProtectedRoute/>}>
+      <Route element={<ProtectedRoutes/>}>
       <Route path='/dashboard' element={<DashboardPage/>}/>
       <Route path='/documents' element={<DocumentListPage/>}/>
       <Route path='/documents/:id' element={<DocumentDetailPage/>}/>
-      <Route path='/flashcards' element={<flashcardListPage/>}/>
-      <Route path='/documents:id/flashcards' element={<FlashcardPage/>}/>
+      <Route path='/flashcard' element={<FlashcardListPage/>}/>
+      <Route path='/documents:id/flashcard' element={<FlashcardPage/>}/>
       <Route path='/quizzes/::quizzId' element={<QuizTakePage/>}/>
       <Route path='/quizzes/:quizId/results' element={<QuizResultPage/>}/>
       <Route path='/profile' element={<ProfilePage/>}/>

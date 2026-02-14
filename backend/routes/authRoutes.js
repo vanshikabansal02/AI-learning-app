@@ -35,7 +35,10 @@ import { register,login,getProfile,updateProfile,changePassword
 router.post('/register',registerValidation,register);
 router.post('/login',loginValidation,login);
 
+
+
 //protected routes
+
 router.get('/profile',protect,getProfile);
 router.put('/profile',protect,updateProfile);
 router.post('/change-password',protect,changePassword);

@@ -2,6 +2,8 @@ import jwt  from "jsonwebtoken";
 import User from '../models/User.js'
 
 const protect=async(req,res,next)=>{
+
+      console.log("ALL HEADERS:", req.headers);
     let token;
     //check if token exists in header
 
@@ -12,6 +14,7 @@ const protect=async(req,res,next)=>{
            //verify token
            const decoded=jwt.verify(token,process.env.JWT_SECRET);
            req.user=await User.findById(decoded.id).select('-password');
+console.log("AUTH HEADER:", req.headers.authorization);
 
             if(!req.user){
                 return res.status(401).json({
@@ -25,7 +28,7 @@ const protect=async(req,res,next)=>{
         catch(error){
             console.error('auth middleware error:',error.message);
 
-            if(error.name==='tokenexpiredError'){
+            if(error.name==='TokenExpiredError'){
                 return res.status(401).json({
                     success:false,
                     error:'token has expired',
@@ -35,7 +38,7 @@ const protect=async(req,res,next)=>{
         
         return res.status(401).json({
             success:false,
-            erroe:'not authorized,token failed',
+            error:'not authorized,token failed',
             statusCode:401
         });
     }
