@@ -37,13 +37,13 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 via-white to-slate-200 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-100 via-white to-slate-200 px-4">
       
       <div className="w-full max-w-md bg-white shadow-2xl rounded-3xl p-8 border border-slate-200">
         
         {/* Logo */}
         <div className="flex flex-col items-center mb-8">
-          <div className="w-14 h-14 flex items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 shadow-lg mb-4">
+          <div className="w-14 h-14 flex items-center justify-center rounded-2xl bg-linear-to-br from-emerald-500 to-teal-500 shadow-lg mb-4">
             <BrainCircuit className="text-white" size={26} />
           </div>
           <h1 className="text-2xl font-semibold text-slate-800">
@@ -122,7 +122,7 @@ const RegisterPage = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold hover:from-emerald-600 hover:to-teal-600 transition duration-200 flex items-center justify-center gap-2 disabled:opacity-60"
+            className="w-full py-2.5 rounded-xl bg-linear-to-r from-emerald-500 to-teal-500 text-white font-semibold hover:from-emerald-600 hover:to-teal-600 transition duration-200 flex items-center justify-center gap-2 disabled:opacity-60"
           >
             {loading ? (
               <>
