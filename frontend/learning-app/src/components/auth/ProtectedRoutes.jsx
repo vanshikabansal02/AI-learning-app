@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navigate } from 'react-router-dom';
+import { Navigate,Outlet} from 'react-router-dom';
 import AppLayout from '../layout/AppLayout';
 import { useAuth } from "../../context/AuthContext"; 
 
@@ -14,7 +14,7 @@ if(loading){
 
   return isAuthenticated? (
    <AppLayout>
-    <Outlet />
+    <Outlet/>
    </AppLayout>
   ):(<Navigate to="/login" replace/>
 

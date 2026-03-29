@@ -12,7 +12,7 @@ const Header = ({toggleSidebar}) => {
     <button
     onClick={toggleSidebar}
     className='md:hidden inline-flex items-center justify-center w-10 h-10 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition-all'
-    aria-labe="toggle sidebar">
+    aria-label="toggle sidebar">
         <Menu size={24}/>
     </button>
 

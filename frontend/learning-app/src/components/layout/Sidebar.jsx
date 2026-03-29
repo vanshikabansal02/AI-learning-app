@@ -24,7 +24,7 @@ const Sidebar = ({isSidebarOpen,toggleSidebar}) => {
     className={`fixed inset-0 bg-black/30 z-40 md:hidden transition-opacity duration-300 ${
       isSidebarOpen ? 'opacity-100':'opacity-0 pointer-ebents-none'
       }`}
-      onclick={toggleSidebar}
+      onClick={toggleSidebar}
       aria-hidden='true'></div>
       <aside
       className={`fixed top-0 left-0 h-full w-64 bg-white/90 backdrop-blur-lg border-r border-slate-200/60 z-50 md:w-64 md:shrink-0 md:flex-col md:translate-x-0 transition duration-300 ease-In-Out ${
@@ -38,7 +38,7 @@ const Sidebar = ({isSidebarOpen,toggleSidebar}) => {
         <BrainCircuit className='text-white' size={20} strokeWidth={2.5}/>
 
       </div>
-      <h className="text-sm md:text-base font-bold text-slate-900 tracking-tight">AI Learning Assistant</h>
+      <h1 className="text-sm md:text-base font-bold text-slate-900 tracking-tight">AI Learning Assistant</h1>
 
     </div>
     <button  onClick={toggleSidebar} className='md:hiddentext-slate-500 hover:text-slate-50'>
@@ -78,14 +78,14 @@ const Sidebar = ({isSidebarOpen,toggleSidebar}) => {
    </nav>
 
    {/*logout section */}
-   <div classname="px-3 py-4 border-t border-slate-200/60 ">
+   <div className="px-3 py-4 border-t border-slate-200/60 ">
     <button
-    onclick={handleLogout}
-    classname="group flex items-center gap-3 w-full px-4 py-2.5 text-sm font-semiold text-slate-700 hover:bg-red-50 hover:text-red-60 rounded-all">
+    onClick={handleLogout}
+    className="group flex items-center gap-3 w-full px-4 py-2.5 text-sm font-semiold text-slate-700 hover:bg-red-50 hover:text-red-60 rounded-all">
       <LogOut
       size={18}
         strokeWidth={2.5}
-        classname="transition-transform duration-200 group-hover:scale-110"
+        className="transition-transform duration-200 group-hover:scale-110"
 />
       
     </button>

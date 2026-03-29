@@ -1,7 +1,7 @@
 import axiosInstance from "../utils/axiosinstance";
 import { API_PATHS } from "../utils/apiPaths";
  
-const getDashbaoardData=async()=>{
+const getDashboardData=async()=>{
     try{
         const response =await axiosInstance.get(API_PATHS.PROGRESS.GET_DASHBOARD);
         return response.data;
@@ -12,7 +12,7 @@ const getDashbaoardData=async()=>{
 };
 
 const progressService={
-    getDashbaoardData,
+    getDashboardData,
 };
 
 export default progressService

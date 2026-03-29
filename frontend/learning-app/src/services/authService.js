@@ -1,7 +1,7 @@
 import axiosInstance from "../utils/axiosinstance";
 import {API_PATHS} from '../utils/apiPaths.js';
 
-const login=async(ElementInternals,password)=>{
+const login=async(email,password)=>{
     try{
         const response=await axiosInstance.post(API_PATHS.AUTH.LOGIN,{
             email,
@@ -14,7 +14,7 @@ const login=async(ElementInternals,password)=>{
     }
 };
 
-const register=async(username,email,pasword)=>{
+const register=async(username,email,password)=>{
     try{
         const response =await axiosInstance.post(API_PATHS.AUTH.REGISTER,{
             username,
