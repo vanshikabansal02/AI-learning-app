@@ -6,7 +6,7 @@ import {extractTextFromPDF} from '../utils/pdfParser.js';
 import fs from 'fs/promises';
 import mongoose from 'mongoose';
 
-export const uploadDocument=async(req,resizeBy,next)=>{
+export const uploadDocument=async(req,res,next)=>{
     try{
 if(!req.file){
     return res.status(400).json({
@@ -32,21 +32,21 @@ const fileUrl=`${baseUrl}/uploads/documents/${req.file.filename}`;
 const document=await Document.create({
     userId:req.user._id,
     title,
-    fileName:req.file.orgiginalname,
+    fileName:req.file.originalname,
     filePath:fileUrl,
     fileSize:req.file.size,
     status:'processing'
 });
 
 //process pdf in bg
-processPDF(document._id,req.file.path).catch(arr=>{
+processPDF(document._id,req.file.path).catch(err=>{
     console.error("pdf processing error",err);
 
 });
 res.status(201).json({
     success:true,
     data:document,
-    message:'Documnet uploaded successfully processing in process',
+    message:'Document uploaded successfully processing in process',
 });
 }
     catch(error){
@@ -56,6 +56,7 @@ res.status(201).json({
 
         }
         next(error);
+
 
     }
 };
@@ -78,7 +79,7 @@ const processPDF=async(documentId,filePath)=>{
 
     }
     catch(error){
-        console.log(`Error processing documnet ${documnetId}:`,error);
+        console.log(`Error processing document ${documentId}:`,error);
 
         await Document.findByIdAndUpdate(documentId,{
             status:'failed'
@@ -90,7 +91,7 @@ export const getDocuments=async(req,res,next)=>{
 try{
 const documents=await Document.aggregate([
 {
-$match:{userId:new mongoose>Types.ObjectId(req.user._id)}
+$match:{userId:new mongoose.Types.ObjectId(req.user._id)}
 },
 {
 $lookup:{
@@ -101,9 +102,12 @@ as:'quizzes'
 }
 },
 {
-$addField:{
-flashcardCount:{$size: '$flsshcardSets'},
-quizCount:{$size:'$quizzes'}
+$addFields:{
+flashcardCount:{$size:
+    { $ifNull:[ '$flashcardSets',[]]}
+},
+quizCount:{$size:
+    {$ifNull:['$quizzes',[]]}}
 }
 },
 {
@@ -118,7 +122,13 @@ quizzes:0
 $sort:{uploadDate:-1}
 }
 ]);
+res.status(200).json({
+  success: true,
+  count: documents.length,
+  data: documents
+});
 }
+
 catch (error) {
 next(error);
 }
@@ -135,7 +145,7 @@ userId:req.user._id
         if(!document){
             return res.status(404).json({
                 success:false,
-                error:'documnet not found',
+                error:'document not found',
                 statusCode:404
             });
         }

@@ -151,7 +151,7 @@ res.status(200).json({
 
     await user.save();
 
-res.staus(200).json({
+res.status(200).json({
   success:true,
   data:{
     id:user._id,
@@ -178,7 +178,7 @@ res.staus(200).json({
     if(!currentPassword||!newPassword){
       return res.status(400).json({
         succcess:false,
-        erroe:"please provide current and new password",
+        error:"please provide current and new password",
         statusCode:400,
       });
 
@@ -186,8 +186,14 @@ res.staus(200).json({
 
     const user=await User.findById(req.user._id).select("+password");
 
+     if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: "User not found",
+      });
+    }
     //check current password
-    const isMatch=await User.matchPassword(currentPassword);
+    const isMatch=await user.matchPassword(currentPassword);
 
     if(!isMatch){
       return res.status(401)
@@ -199,7 +205,9 @@ res.staus(200).json({
     }
     //update password
     user.password=newPassword;
+   
     await user.save();
+    
     res.status(200).json({
       success:true,
       message:"password changes successfully"

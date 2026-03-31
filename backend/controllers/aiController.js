@@ -38,7 +38,7 @@ const cards=await geminiService.generateFlashcards(
 //save to database
 const flashcardset=await Flashcard.create({
     userId:req.user._id,
-    documnetId:document._id,
+    documentId:document._id,
     cards:cards.map(cards=>({
 question:card.question,
 answer:card.answer,
@@ -62,7 +62,7 @@ export const generateQuiz=async(req,res,next)=>{
     try{
 const {documentI,numQuestion=5,title}=req.body;
 
-if(!documnetId){
+if(!documentId){
     return res.status(400).json({
         success:false,
         error:"provide docuent id",
@@ -112,15 +112,15 @@ export const generateSummary=async(req,res,next)=>{
     try{
 const {documentId}=req.body;
 
-if(!documnetId){
+if(!documentId){
       return res.status(400).json({
         success:false,
         error:"please provide document",
         statusCode:400
 });
     }
-    const documnet=await Document.findOne({
-        _is:documnetId,
+    const document=await Document.findOne({
+        _is:documentId,
         userId:req.user._is,
         status:"ready"
 
@@ -132,11 +132,11 @@ if(!documnetId){
         statusCode:404
     });
 }
-const summary=await geminiService.generateSummary(documnet.extractedText);
+const summary=await geminiService.generateSummary(document.extractedText);
 res.status(200).json({
     success:true,
     data:{
-        documentId:documnet._id,
+        documentId:document._id,
         titlr:document.title,
         summary
 
@@ -152,10 +152,10 @@ res.status(200).json({
 export const chat=async(req,res,next)=>{
     try{
 const {documentId,question}=req.body;
-if(!documnetId||!question){
+if(!documentId||!question){
       return res.status(404).json({
         success:false,
-        error:"provide documnet id and question",
+        error:"provide document id and question",
         statusCode:404
 })
 };
@@ -179,7 +179,7 @@ const chunkIndices=relevantChunks.map(c=>c.chunkIndex);
 //get or create cha history
 let chatHistory=await ChatHistory.findOne({
     userId:req.user._is,
-    documnetId:document._id,
+    documentId:document._id,
 });
 if(!ChatHistory){
     chatHistory=await  ChatHistory.create({
