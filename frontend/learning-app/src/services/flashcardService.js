@@ -11,9 +11,9 @@ const getAllFlashcardSets=async()=>{
     }
 };
 
-const getFlashcardsForDocument=async (documnetId)=>{
+const getFlashcardsForDocument=async (documentId)=>{
     try{
-        const response=await axiosInstance.get(API_PATHS.FLASHCARDS.GET_FLASHCARDS_FOR_DOC(documnetId));
+        const response=await axiosInstance.get(API_PATHS.FLASHCARDS.GET_FLASHCARDS_FOR_DOC(documentId));
         return response.data;
 
     }

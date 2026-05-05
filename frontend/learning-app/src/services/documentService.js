@@ -7,7 +7,7 @@ const getDocuments=async()=>{
         return response.data?.data;
     }
     catch(error){
-        throw error.response?.data||{message:"failed to fetch documnet"};
+        throw error.response?.data||{message:"failed to fetch document"};
     }
 };
 
@@ -22,7 +22,7 @@ const uploadDocuments=async(formData)=>{
         return response.data;
     }
     catch(error){
-        throw error.response?.data||{message:"failed to upload documnet"};
+        throw error.response?.data||{message:"failed to upload document"};
     }
 };
 
@@ -34,7 +34,7 @@ const deleteDocuments=async(_id)=>{
         return response.data;
     }
     catch(error){
-        throw error.response?.data||{message:"failed to delete documnet"};
+        throw error.response?.data||{message:"failed to delete document"};
     }
 };
 
@@ -45,7 +45,7 @@ const getDocumentById=async(id)=>{
         return response.data;
     }
     catch(error){
-        throw error.response?.data||{message:"failed to get documnet by id"};
+        throw error.response?.data||{message:"failed to get document by id"};
     }
 };
 

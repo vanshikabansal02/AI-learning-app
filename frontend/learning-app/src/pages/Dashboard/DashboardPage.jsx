@@ -149,7 +149,7 @@ const stats=[
 
               }`}/>
               <p classname="text-sm font-medium text-slate-900 truncate">
-                {activity.type==='documnet'?'Accessed Documnet :' :'Attempted quiz:'}
+                {activity.type==='document'?'Accessed Document :' :'Attempted quiz:'}
                 <span classname="">{activity.description}</span>
               </p>
             </div>
