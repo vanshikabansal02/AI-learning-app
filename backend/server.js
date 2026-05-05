@@ -39,7 +39,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
 //static folder for uplaods
-app.use('/uploads',express.static(path.join(__dirname,'uploads')));
+app.use('/upload',express.static(path.join(__dirname,'upload')));
 
 //routes
 app.use('/api/auth',authRoutes)
