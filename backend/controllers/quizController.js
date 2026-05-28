@@ -9,7 +9,7 @@ const quizzes=await Quiz.find({
 .poulate('documentId','title fileName')
 .sort({createdAt:-1});
 
-re.status(200).json({
+res.status(200).json({
     success:true,
     count:quizzes.length,data:quizzes
 });
