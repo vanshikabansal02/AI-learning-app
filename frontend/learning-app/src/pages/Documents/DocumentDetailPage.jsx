@@ -3,7 +3,7 @@ import { Plus } from "lucide-react";
 import toast from "react-hot-toast";
 
 import documentService from "../../services/documentService";
-import Spinner from "../../components/Spinner";
+import Spinner from "../../components/common/Spinner.jsx";
 
 const DocumentDetailPage = () => {
   const [documents, setDocuments] = useState([]);
