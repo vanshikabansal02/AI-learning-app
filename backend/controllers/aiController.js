@@ -2,17 +2,17 @@ import Document from '../models/Document.js';
 import Flashcard from '../models/Flashcard.js';
 import Quiz from '../models/Quiz.js';
 import ChatHistory from '../models/ChatHistory.js';
-import * as geminiSErvice from '../utils/geminiService.js';
+import * as geminiService from '../utils/geminiService.js';
 import {findRelevantChunks} from '../utils/textChunker.js';
 
 
-export const generateFlashcards=async(req,resizeBy,next)=>{
+export const generateFlashcards=async(req,res,next)=>{
     try{
 const {documentId,count=10}=req.body;
 if(!documentId){
     return res.status(400).json({
         success:false,
-        error:"please provide document is",
+        error:"please provide document id",
         statusCode:400,
     });
 }
@@ -36,10 +36,10 @@ const cards=await geminiService.generateFlashcards(
 );
 
 //save to database
-const flashcardset=await Flashcard.create({
+const flashcardSet=await Flashcard.create({
     userId:req.user._id,
     documentId:document._id,
-    cards:cards.map(cards=>({
+    cards:cards.map(card=>({
 question:card.question,
 answer:card.answer,
 difficulty:card.difficulty,
@@ -47,9 +47,9 @@ reviewCount:0,
 isstarres:false,
     }))
 });
-re.status(201).json({
+res.status(201).json({
     success:true,
-    data:flashcardset,
+    data:flashcardSet,
     message:"flashcard generated sucessfully",
 });
     }
@@ -115,7 +115,7 @@ const {documentId}=req.body;
 if(!documentId){
       return res.status(400).json({
         success:false,
-        error:"please provide document",
+        error:"please provide document id",
         statusCode:400
 });
     }

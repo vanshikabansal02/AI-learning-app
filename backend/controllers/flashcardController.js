@@ -8,7 +8,7 @@ const flashcards=await Flashcard.find({
 })
 .populate('documentId','title filename')
 .sort({ createdAt:-1});
-re.status(200).json({
+res.status(200).json({
     success:true,
     count:flashcards.length,
     data:flashcards
@@ -86,11 +86,11 @@ export const toggleStarFlashcard=async(req,res,next)=>{
 
 
     try{
-        const flashcardset=await Flashcard.findOne({
-            'cards._id':req.paramscardId,
+        const flashcardSet=await Flashcard.findOne({
+            'cards._id':req.params.cardId,
             userId:req.user._id
         });
-if(!flashcardset){
+if(!flashcardSet){
     return res.status(404).json({
         success:false,
         error:"flashcard set or card not found",
@@ -99,7 +99,7 @@ if(!flashcardset){
 
 }
 
-const cardIndex=flashcardset.cards.findIndex(card=>card._id.toString()===req.params.cardId);
+const cardIndex=flashcardSet.cards.findIndex(card=>card._id.toString()===req.params.cardId);
 
 if(cardIndex===-1){
     return res.status(404).json({
@@ -111,11 +111,11 @@ if(cardIndex===-1){
 //toggle star
 flashcardSet.cards[cardIndex].isStarred=!flashcardSet.cards[cardIndex].isStarred;
 
-await flashcardset.save();
+await flashcardSet.save();
 
 res.status(200).json({
     success:true,
-    data:flashcardset,
+    data:flashcardSet,
     message:`Flashcard ${flashcardSet.cards[cardIndex].isStarred? 'starred':'unstarred'}`
 });
 
@@ -148,6 +148,6 @@ res.status(200).json({
 });
     }
     catch(error){
-        nect(error);
+        next(error);
     }
 };
