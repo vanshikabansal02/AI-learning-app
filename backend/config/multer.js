@@ -18,8 +18,10 @@ const storage=multer.diskStorage({
         cb(null,uploadDir);
     },
     filename:(req,file,cb)=>{
+         console.log("FULL FILE OBJECT:", file); 
         const uniqueSuffux=Date.now()+ '-'+ Math.round(Math.random()*1E9);
-        cb(null,`${uniqueSuffux}-${file.originalName}`);
+        
+        cb(null,`${uniqueSuffux}-${file.originalname}`);
 
     }
 });

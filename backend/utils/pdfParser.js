@@ -1,5 +1,5 @@
 import fs from "fs/promises";
-import * as pdf from "pdf-parse";
+import pdf from "pdf-parse";
 
 /**
  * Extract text from a PDF file
@@ -9,7 +9,7 @@ import * as pdf from "pdf-parse";
 export const extractTextFromPDF = async (filePath) => {
     try {
         const dataBuffer = await fs.readFile(filePath);
-
+ 
         const data = await pdf(dataBuffer);
 
         return {
