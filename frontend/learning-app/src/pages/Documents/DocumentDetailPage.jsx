@@ -58,7 +58,7 @@ const DocumentDetailPage = () => {
     formData.append("title", uploadTitle);
 
     try {
-      await documentService.uploadDocument(formData);
+      await documentService.uploadDocuments(formData);
       toast.success("Document uploaded successfully");
 
       setIsUploadModalOpen(false);
@@ -107,15 +107,13 @@ const DocumentDetailPage = () => {
       <h1 className="text-xl font-bold mb-2">My Documents</h1>
       <p className="mb-4">Manage and organize your learning materials.</p>
 
-      {documents.length > 0 && (
-        <button
-          onClick={() => setIsUploadModalOpen(true)}
-          className="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded"
-        >
-          <Plus size={18} />
-          Upload
-        </button>
-      )}
+     <button
+  onClick={() => setIsUploadModalOpen(true)}
+  className="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded"
+>
+  <Plus size={18} />
+  Upload
+</button>
 
       {/* Example document list */}
       <div className="mt-4">
