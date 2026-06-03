@@ -69,7 +69,7 @@ const DocumentListPage = () => {
     formData.append("title",uploadTitle);
 
     try{
-      await documentService.uploadDocument(formData);
+      await documentService.uploadDocuments(formData);
       toast.success("Document uploaded successfully ");
       setIsUploadModalOpen(false);
       setUploadFile(null);
@@ -113,11 +113,61 @@ const renderContent=()=>{
 console.log("documents:", documents);
 
 return (
-  <div>
-    <h1>Documents</h1>
-    <p>Count: {documents.length}</p>
+  <div className="p-6">
+    <div className="flex justify-between items-center mb-6">
+      <h1 className="text-2xl font-bold">My Documents</h1>
+
+      <button
+        onClick={() => setIsUploadModalOpen(true)}
+        className="bg-blue-500 text-white px-4 py-2 rounded flex items-center gap-2"
+      >
+        <Plus size={18} />
+        Upload Document
+      </button>
+    </div>
+
+    {isUploadModalOpen && (
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div className="bg-white p-6 rounded-lg w-96">
+          <h2 className="text-xl font-bold mb-4">Upload Document</h2>
+
+          <input
+            type="text"
+            placeholder="Document Title"
+            value={uploadTitle}
+            onChange={(e) => setUploadTitle(e.target.value)}
+            className="border p-2 w-full mb-3"
+          />
+
+          <input
+            type="file"
+            accept=".pdf"
+            onChange={handleFileChange}
+            className="mb-3 w-full"
+          />
+
+          <div className="flex gap-2">
+            <button
+              onClick={handleUpload}
+              disabled={uploading}
+              className="bg-blue-500 text-white px-4 py-2 rounded"
+            >
+              {uploading ? "Uploading..." : "Upload"}
+            </button>
+
+            <button
+              onClick={() => setIsUploadModalOpen(false)}
+              className="bg-gray-300 px-4 py-2 rounded"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
   </div>
 );
+ 
 
 
 

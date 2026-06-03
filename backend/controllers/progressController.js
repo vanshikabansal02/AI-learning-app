@@ -1,5 +1,5 @@
-import Document from '../models/Document.js'; // Fixed typo here (Documnent -> Document)
-import Flashcard from '../models/Quiz.js';
+import Document from '../models/Document.js'; 
+import Flashcard from '../models/Flashcard.js';
 import Quiz from '../models/Quiz.js';
 
 export const getDashboard = async (req, res, next) => {
