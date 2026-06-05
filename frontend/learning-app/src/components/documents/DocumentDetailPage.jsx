@@ -1,3 +1,4 @@
+console.log("Documents page loaded");
 import React,{useState,useEffect} from 'react';
 import {useParams,Link} from 'react-router-dom';
 import documentService from '../../services/documentService';
@@ -7,6 +8,9 @@ import {ArrowLeft, ExternalLink} from 'lucide-react';
 import PageHeader from '../../components/common/PageHeader';
 import Tabs from '../../components/common/Tabs';
 import AIActions from '../ai/AIActions';
+import ChatInterface from '../chat/ChatInterface';
+import FlashCardManager from '../flashcards/FlashCardManager';
+import QuizManager from '../quizzes/QuizManager';
 const DocumentDetailPage=()=>{
 
     const { id } = useParams();
@@ -95,7 +99,7 @@ const DocumentDetailPage=()=>{
         {name:'Chat',label:'Chat',content: renderChat()},
         {name:'AI Actions',label:'AI Actions',content:renderAIActions()},
         {name:'FlashCards',label:'FlashCards',content:renderFlashcardsTab()},
-        {name:'Quizzes',label:'Quizzes',content:renderQuizzesTab},
+        {name:'Quizzes',label:'Quizzes',content:renderQuizzesTab()},
     ];
     if(loading){
         return <Spinner/>;
@@ -106,7 +110,7 @@ const DocumentDetailPage=()=>{
     return (
         <div>
             <div className="mb-4">
-                <Link to="/documents" className="inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutrak-900 transition-colors">
+                <Link to="/documents" className="inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-900 transition-colors">
                     <ArrowLeft size={16} />
                     Back to Documents
                 </Link>
