@@ -19,7 +19,21 @@ const DocumentListPage = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [selectedDoc, setSelectedDoc] = useState(null);
+ //BELOW COMMENT WAS FOR DEBUGGING:
+  /*const fetchDocuments = async () => {
+  try {
+    const data = await documentService.getDocuments();
 
+    console.log("API response:", data);
+
+    setDocuments(data);
+  } catch (error) {
+    console.error("Fetch error:", error);
+  } finally {
+    setLoading(false);
+  }
+}; */
+   
   const fetchDocuments = async () => {
     try {
       const data = await documentService.getDocuments();
@@ -50,7 +64,7 @@ const DocumentListPage = () => {
       return ;
     }
     setUploading(true);
-    const formData=newFormData();
+    const formData=new FormData();
     formData.append("file",uploadFile);
     formData.append("title",uploadTitle);
 
@@ -96,9 +110,20 @@ const handleConfirmDelete = async () => {
 const renderContent=()=>{
   return <div>renderContent</div>
 }
+console.log("documents:", documents);
 
 return (
+  <div>
+    <h1>Documents</h1>
+    <p>Count: {documents.length}</p>
+  </div>
+);
+
+
+
+
+/*return (
   <div>DocumentListPage</div>
-)
+)*/
 }
 export default DocumentListPage

@@ -1,3 +1,4 @@
+console.log("DocumentCard rendered");
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FileText, Trash2, BookOpen, BrainCircuit, Clock } from 'lucide-react';
@@ -27,7 +28,7 @@ const DocumentCard = ({
         navigate(`/documents/${document._id}`);
     };
     const handleDelete=(e)=>{
-        e.stopPropogation();
+        e.stopPropagation();
         onDelete(document);
     };
 
@@ -55,7 +56,7 @@ const DocumentCard = ({
   <h3 className="text-base font-semibold text-slate-900 truncate mb-2" title={document.title}>
     {document.title}
   </h3>
-</div>
+
 {/* Document Info */}
 <div className="flex items-center gap-3 text-xs text-slate-500 mb-3">
   {document.fileSize !== undefined && (
@@ -91,10 +92,10 @@ const DocumentCard = ({
 {/*Hover Indicator*/}
 <div className='absolute inset-0 rounded-2xl bg-linear-to-br from-emerald-500/0 to-teal-500/0 group-hover:from-emerald-500/5 group-hover:to-teal-500/5 transition-all duration-300 pointer-events-none'/>
  
-}
+
+</div>
 
 export default DocumentCard
-/*
- *  write code from video from  3: 23: 18 ->>> 3: 26: 44
-  3:33->
- */
+//
+ //  write code from video from  3: 23: 18 ->>> 3: 26: 44
+  //3:33->
