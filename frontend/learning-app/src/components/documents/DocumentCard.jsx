@@ -1,4 +1,4 @@
-console.log("DocumentCard rendered");
+//console.log("DocumentCard rendered");
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FileText, Trash2, BookOpen, BrainCircuit, Clock } from 'lucide-react';
@@ -72,7 +72,7 @@ const DocumentCard = ({
     <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-purple-50 rounded-lg">
       <BookOpen className="w-3.5 h-3.5 text-purple-600" strokeWidth={2} />
       <span className="text-xs font-semibold text-purple-700">{document.flashcardCount} Flashcards</span>
-    </div>
+    </div> 
   )}
 
   {document.quizCount !== undefined && (
@@ -95,7 +95,7 @@ const DocumentCard = ({
 
 </div>
 
-export default DocumentCard
+export default DocumentCard;
 //
  //  write code from video from  3: 23: 18 ->>> 3: 26: 44
-  //3:33->
+  //3:33
