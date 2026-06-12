@@ -5,7 +5,7 @@ import LoginPage from './pages/Auth/LoginPage';
 import RegisterPage from './pages/Auth/RegisterPage';
 import DashboardPage from './pages/Dashboard/DashboardPage';
 import ProtectedRoutes from './components/auth/ProtectedRoutes';
-import DocumentDetailPage from './pages/Documents/DocumentDetailPage';
+import DocumentDetailPage from './components/documents/DocumentDetailPage';
 import DocumentListPage from './pages/Documents/DocumentListPage';
 import FlashcardListPage from './pages/Flashcard/FlashcardListPage';
 import FlashcardPage from './pages/Flashcard/FlashcardPage';

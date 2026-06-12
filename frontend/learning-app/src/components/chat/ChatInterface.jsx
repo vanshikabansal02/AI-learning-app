@@ -1,4 +1,4 @@
-import React,{useState,useEffect,useRef, use} from 'react';
+import React,{useState,useEffect,useRef} from 'react';
 import {Send,MessageSquare,Sparkles} from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import aiService from '../../services/aiService';
@@ -16,7 +16,7 @@ const ChatInterface = () => {
     const messagesEndRef=useRef(null);
 
     const scrollToBottom=()=>{
-        messagesEndRef.current?.scrollIntoView({behaviour:"smooth"});
+        messagesEndRef.current?.scrollIntoView({behavior:"smooth"});
     };
     useEffect(()=>{
         const fetchChatHistory=async()=>{
@@ -51,7 +51,9 @@ const ChatInterface = () => {
             const assistantMessage={
                 role: 'assistant',
                 content: response.data.answer,
-                timestamp: response.data.relevantChunks
+                timestamp: new Date(),
+
+                relevantChunks: response.data.relevantChunks
             };
             setHistory(prev=>[...prev,assistantMessage]);
         } catch(error){
@@ -67,6 +69,7 @@ const ChatInterface = () => {
         }
     };
     const renderMessage=(msg,index)=>{
+      const isUser=msg.role==='user';
         return (
   <div key={index} className={`flex items-start gap-3 my-4 ${isUser ? 'justify-end' : ''}`}>
     
@@ -128,7 +131,7 @@ return (
       ):(
         history.map(renderMessage)
       )}
-    <div ref={messageEndRef}/>
+    <div ref={messagesEndRef}/>
     {loading &&(
         <div className='flex items-center gap-3 my-4'>
             <div className='w-9 h-9 rounded-xl bg-linear-to-br from-emerald-400 to-teal-500 shadow-lg shadow-emerald-500/25 flex items-center justify-center shrink-0'>
@@ -136,7 +139,7 @@ return (
             </div>
             <div className='flex items-center gap-2 px-4 py-3 rounded-2xl rounded-bl-md bg-white border'>
                 <div className='flex gap-1'>
-                    <span className='w-2 h-2 bg-slate-400 roundedfull animate-bounce' style={{animationDelay:'0ms'}}>
+                    <span className='w-2 h-2 bg-slate-400 rounded-full animate-bounce' style={{animationDelay:'0ms'}}>
                     </span>
                     <span className='w-2 h-2 bg-slate-400 rounded-full animate-bounce' style={{animationDelay:'150ms'}}></span>
                     <span className='w-2 h-2 bg-slate-400 rounded-full animate-bounce'  style={{animationDelay:'300ms'}}></span>
@@ -161,7 +164,7 @@ return (
     <button
       type="submit"
       disabled={loading || !message.trim()}
-      className="shrink-0 w-12 h-12 bg-linear=to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white rounded-xl transition-all duration-200 shadow-lg shadow-emerald-500/25 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 flex items-center justify-center"
+      className="shrink-0 w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white rounded-xl transition-all duration-200 shadow-lg shadow-emerald-500/25 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 flex items-center justify-center"
     >
       <Send className="w-5 h-5" strokeWidth={2} />
     </button>

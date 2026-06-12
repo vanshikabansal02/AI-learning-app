@@ -17,17 +17,17 @@ const Sidebar = ({isSidebarOpen,toggleSidebar}) => {
     {to:'/dashboard',icon:LayoutDashboard,text:'Dashboard'},
     {to:'/documents',icon:FileText,text:'Documents'},
     {to:'/flashcards',icon:BookOpen,text:'Flashcards'},
-    {to:'/proifile',icon:User,text:'Profile'},
+    
   ];
     return <>
     <div 
     className={`fixed inset-0 bg-black/30 z-40 md:hidden transition-opacity duration-300 ${
-      isSidebarOpen ? 'opacity-100':'opacity-0 pointer-ebents-none'
+      isSidebarOpen ? 'opacity-100':'opacity-0 pointer-events-none'
       }`}
       onClick={toggleSidebar}
       aria-hidden='true'></div>
       <aside
-      className={`fixed top-0 left-0 h-full w-64 bg-white/90 backdrop-blur-lg border-r border-slate-200/60 z-50 md:w-64 md:shrink-0 md:flex-col md:translate-x-0 transition duration-300 ease-In-Out ${
+      className={`fixed top-0 left-0 h-full w-64 bg-white/90 backdrop-blur-lg border-r border-slate-200/60 z-50 md:w-64 md:flex md:flex-col md:translate-x-0 transition duration-300 ease-In-Out ${
       isSidebarOpen? 'translate-x-0':'-translate-x-full'
     }`}
     >
@@ -41,12 +41,12 @@ const Sidebar = ({isSidebarOpen,toggleSidebar}) => {
       <h1 className="text-sm md:text-base font-bold text-slate-900 tracking-tight">AI Learning Assistant</h1>
 
     </div>
-    <button  onClick={toggleSidebar} className='md:hiddentext-slate-500 hover:text-slate-50'>
+    <button  onClick={toggleSidebar} className='md:hidden text-slate-500 hover:text-slate-50'>
       <X size={24}/>
     </button>
    </div>
    {/*navigation*/}
-   <nav className='flex-l px-3 py-6 space-y-1.5'>
+   <nav className='flex-1 px-3 py-6 space-y-1.5'>
     {navLinks.map((link)=>(
       <NavLink
     key={link.to}
@@ -55,7 +55,7 @@ const Sidebar = ({isSidebarOpen,toggleSidebar}) => {
   className={({isActive})=>
   `group flex items-center gap-3 px-4 py-2.5 text-sm font-semibold  rounded-xl transition-all duration-300 ${
     isActive?
-    'bg-linear-to-r from-emerald-500 to-real-500 text-white shadow-lg shaodw-emerald-500/25'
+    'bg-linear-to-r from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-500/25'
     : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900'
 
   }`}
@@ -81,7 +81,7 @@ const Sidebar = ({isSidebarOpen,toggleSidebar}) => {
    <div className="px-3 py-4 border-t border-slate-200/60 ">
     <button
     onClick={handleLogout}
-    className="group flex items-center gap-3 w-full px-4 py-2.5 text-sm font-semiold text-slate-700 hover:bg-red-50 hover:text-red-60 rounded-all">
+    className="group flex items-center gap-3 w-full px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-red-50 hover:text-red-600 rounded-xl">
       <LogOut
       size={18}
         strokeWidth={2.5}
