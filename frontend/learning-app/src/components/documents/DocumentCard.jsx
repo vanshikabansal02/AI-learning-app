@@ -94,8 +94,5 @@ const DocumentCard = ({
  
 
 </div>
-
+};
 export default DocumentCard;
-//
- //  write code from video from  3: 23: 18 ->>> 3: 26: 44
-  //3:33

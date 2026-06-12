@@ -139,7 +139,7 @@ const renderContent=()=>{
     );
   }
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       {documents?.map((doc)=>(
         <DocumentCard
         key={doc._id}
@@ -208,8 +208,8 @@ const renderContent=()=>{
    return(
     <div className="min-h-screen"> 
     {/* Subtle Background Pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] bg-size-[16px_16px] opacity-30 pointer-events-none">
-      <div className="relative max-w-7xl mx-auto"/>
+      <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] bg-size-[16px_16px] opacity-30 pointer-events-none"/>
+      <div className="relative max-w-7xl mx-auto">
       {/*Header*/}
       <div className="flex items-center justify-between mb-10">
         <div>

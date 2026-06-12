@@ -33,7 +33,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 via-white to-slate-200 px-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-slate-100 via-white to-slate-200 px-4">
       
       <div className="w-full max-w-md bg-white shadow-2xl rounded-3xl p-8 border border-slate-200">
         
@@ -130,7 +130,7 @@ const LoginPage = () => {
       </div>
       {/*subtle footer8*/}
       <p className="text-center text-xs text-slate-400 mt-6">
-        by continuing ,you agree to our terms nd policy
+        By continuing ,you agree to our terms nd policy
       </p>
     </div>
     
