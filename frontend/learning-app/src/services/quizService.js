@@ -8,13 +8,15 @@ const getQuizzesForDocument=async(documentId)=>{
 
     }
     catch(error){
+        console.error("Actual quiz error:", error);
+
         throw error.response?.data||{message:"failed to fetch quizzes"};
     }
 };
 
 const getQuizById=async(quizId)=>{
     try{
-        const respone=await axiosInstance.get(API_PATHS.QUIZZES.GET_QUIZ_BY_ID(quizId));
+        const response=await axiosInstance.get(API_PATHS.QUIZZES.GET_QUIZ_BY_ID(quizId));
         return response.data;
 
     } catch(error){

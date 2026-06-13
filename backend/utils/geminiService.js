@@ -37,7 +37,11 @@ ${text.substring(0, 15000)}`;
         const response = await ai.models.generateContent({
             model: "gemini-2.5-flash-lite",
             contents: prompt,
+
         });
+        console.log("Raw Gemini response:", response);
+        
+        console.log("Response.text:", response.text);
 
         const generatedText = response.text;
 
@@ -188,12 +192,14 @@ ${text.substring(0, 15000)}`;
 
         return questions.slice(0, numQuestions);
 
-    } catch (error) {
+        } catch (error) {
+            console.error("=== GEMINI ERROR ===");
+            console.error(error);
+            console.error("Message:", error?.message);
+            console.error("Stack:", error?.stack);
 
-        console.error('Gemini API error:', error);
-
-        throw new Error('Failed to generate quiz');
-    }
+            throw error;
+        }
 };
 
 /**

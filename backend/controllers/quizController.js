@@ -3,10 +3,10 @@ import Quiz from '../models/Quiz.js';
 export const getQuizzes=async (req,res,next)=>{
     try{
 const quizzes=await Quiz.find({
-    userId:req.usr._id,
-    documnentId:req.params.documnentId
+    userId:req.user._id,
+    documentId:req.params.documentId
 })
-.poulate('documentId','title fileName')
+.populate('documentId','title fileName')
 .sort({createdAt:-1});
 
 res.status(200).json({
@@ -35,7 +35,7 @@ if(!quiz){
 }
 res.status(200).json({
     success:true,
-    data:quiz,
+    data: quiz,
 });
     }
     catch(error){
@@ -49,7 +49,7 @@ const {answers}=req.body;
 if(!Array.isArray(answers)){
     return res.status(400).json({
         success:false,
-        error:'pllease provide answer array',
+        error:'please provide answer array',
         statusCode:400
     });
 }
@@ -96,7 +96,7 @@ const score=Math.round((correctCount/quiz.totalQuestions)*100);
 //update quiz
 quiz.userAnswers=userAnswers;
 quiz.score=score;
-quiz.completedAt=newDate();
+quiz.completedAt=new Date();
 await quiz.save();
 
 res.status(200).json({
@@ -121,7 +121,7 @@ export const getQuizResults=async (req,res,next)=>{
     try{
         const quiz=await Quiz.findOne({
             _id:req.params.id,
-            userid:req.user._id
+            userId:req.user._id
         }).populate('documentId','title');
 
         if(!quiz){

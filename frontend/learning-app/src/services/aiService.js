@@ -45,6 +45,7 @@ const Chat=async(documentId,message)=>{
         return response.data;
 
     } catch(error){
+        console.log("Actual chat error2:",error)
         throw error.response?.data||{message:"failed to chat"};
     }
 };
@@ -69,7 +70,8 @@ const getChatHistory=async(documentId)=>{
         return response.data;
 
     } catch(error){
-        throw error.response?.data||{message:"failed to gt chat history"};
+        console.error("Actual chat History error:", error);
+        throw error.response?.data||{message:"failed to get chat history"};
     }
 };
 
