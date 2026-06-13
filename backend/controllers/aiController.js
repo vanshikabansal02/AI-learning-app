@@ -58,54 +58,64 @@ res.status(201).json({
     }
 };
 
-export const generateQuiz=async(req,res,next)=>{
-    try{
-const {documentI,numQuestion=5,title}=req.body;
+export const generateQuiz = async (req, res, next) => {
+    try {
+        const { documentId, numQuestions = 5, title } = req.body;
 
-if(!documentId){
-    return res.status(400).json({
-        success:false,
-        error:"provide docuent id",
-        statusCode:400
+        if (!documentId) {
+            return res.status(400).json({
+                success: false,
+                error: "Provide document ID",
+                statusCode: 400
+            });
+        }
+
+        const document = await Document.findOne({
+            _id: documentId,
+            userId: req.user._id,
+            status: "ready",
+        });
+
+        if (!document) {
+            return res.status(404).json({
+                success: false,
+                error: "Document not found",
+                statusCode: 404
+            });
+        }
+
+        const questions = await geminiService.generateQuiz(
+            document.extractedText,
+            parseInt(numQuestions)
+        );
+
+        const quiz = await Quiz.create({
+            userId: req.user._id,
+            documentId: document._id,
+            title: title || `${document.title}-Quiz`,
+            questions,
+            totalQuestions: questions.length,
+            userAnswers: [],
+            score: 0
+        });
+
+        res.status(201).json({
+            success: true,
+            data: quiz,
+            message: "Quiz generated successfully"
+        });
+
+    } catch (error) {
+    console.error("=== GENERATE QUIZ ERROR ===");
+    console.error(error);
+    console.error(error?.message);
+    console.error(error?.stack);
+
+    return res.status(500).json({
+        success: false,
+        error: error.message,
     });
 }
-const document=await Document.findOne({
-    _id:documentId,
-    user:req.user._id,
-    status:"resdy",
-});
-if(!document){
-    return res.status(404).json({
-        success:false,
-        error:"doc not found",
-        statusCode:404
-    });
-}
-//generate quiz
-
-const questions= await geminiService.generateQuiz(
-    document.extractedText,
-    parseInt(numQuestion)
-);
-///save
-const Quiz=await Quiz.create({
-    userId:req.user._id,
-    documentId:document._id,
-    title:title||`${document.title}-Quiz`,
-    questions:questions,
-    totalQuestions:questions.length,
-    userAnswers:[],
-    score:0
-});
-res.status(201).json({
-    success:true,
-    data:quiz,
-    message:"Quiz generated succrsfully"
-})
-}
-    catch(error){
-        next(error);
-    }
 };
 
 export const generateSummary=async(req,res,next)=>{

@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 import Document from '../models/Document.js'; 
+=======
+
+import Document from '../models/Document.js'; // Fixed typo here (Documnent -> Document)
+>>>>>>> a36ad7a (Fixed all the errors in Quizzes TAB of Documents Page)
 import Flashcard from '../models/Flashcard.js';
 import Quiz from '../models/Quiz.js';
 
@@ -19,6 +24,7 @@ export const getDashboard = async (req, res, next) => {
         let starredFlashcards = 0;  // Added 's' to prevent crash in loop
 
         flashcardSets.forEach(set => {
+            const cards = set.cards || [];
             totalFlashcards += set.cards.length;
             reviewedFlashcards += set.cards.filter(c => c.reviewCount > 0).length;
             starredFlashcards += set.cards.filter(c => c.isStarred).length;
@@ -64,8 +70,23 @@ export const getDashboard = async (req, res, next) => {
                 }
             }
         });
+<<<<<<< HEAD
     } catch (error) {
         console.error("DASHBOARD ERROR DETECTED:", error);
         next(error);
     }
+=======
+    } catch(error){
+    console.error("DASHBOARD ERROR:", error);
+    console.error(error?.message);
+    console.error(error?.stack);
+
+    return res.status(500).json({
+        success:false,
+        error:error.message
+    });
+}
+
+
+>>>>>>> a36ad7a (Fixed all the errors in Quizzes TAB of Documents Page)
 };

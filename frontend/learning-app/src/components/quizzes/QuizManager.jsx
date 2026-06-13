@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
-
+import EmptyState from '../common/EmptyState';
 import quizService from '../../services/quizService';
 import aiService from '../../services/aiService';
 import Spinner from '../common/Spinner';
@@ -90,11 +90,11 @@ const QuizManager = ({documentId}) => {
       );
     }
     return (
-        <Div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 mb:grid-cols-3 lg:grid-cols-4 gap-4'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
             {quizzes.map((quiz)=>(
                 <QuizCard key={quiz._id} quiz={quiz} onDelete={handleDeleteRequest}/>
             ))}
-        </Div>
+        </div>
     );
   };
 

@@ -39,11 +39,11 @@ export const API_PATHS = {
     DELETE_FLASHCARD_SET:(id)=>`/api/flashcards/${id}`,
   },
  QUIZZES:{
-    GET_QUIZZES_FOR_DOC:(documentId)=>`/api/quizzes/${documenId}`,
+    GET_QUIZZES_FOR_DOC:(documentId)=>`/api/quizzes/${documentId}`,
     GET_QUIZ_BY_ID:(id)=>`/api/quizzes/quiz/${id}`,
-    SUBMIT_QUIZ:(id)=>`/api/quizzes/${id}/results`,
+    SUBMIT_QUIZ:(id)=>`/api/quizzes/${id}/submit`,
 
-    GWT_QUIZ_RESULTS:(id)=>`/api/quizzes/${id}/results`,
+    GET_QUIZ_RESULTS:(id)=>`/api/quizzes/${id}/results`,
     DELETE_QUIZ:(id)=>`/api/quizzes/${id}`,
  },
  PROGRESS:{

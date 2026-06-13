@@ -1,3 +1,5 @@
+console.log("QuizTakePage rendered");
+
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, CheckCircle2 } from 'lucide-react';
@@ -66,9 +68,13 @@ const QuizTakePage = () => {
       await quizService.submitQuiz(quizId, formattedAnswers);
       toast.success('Quiz submitted successfully!');
       navigate(`/quizzes/${quizId}/results`);
-    } catch (error) {
-      toast.error(error.message || 'Failed to submit quiz.');
-    } finally {
+      } catch (error) {
+        console.log("SUBMIT ERROR:", error);
+        console.log(error?.message);
+        console.log(error?.stack);
+
+        toast.error(error.message || 'Failed to submit quiz.');
+      }finally {
       setSubmitting(false);
     }
   };
@@ -109,7 +115,7 @@ const QuizTakePage = () => {
             {answeredCount} answered
           </span>
         </div>
-        <div className="realtive h-2 bg-slate-100 rounded-full overflow-hidden">
+        <div className="relative h-2 bg-slate-100 rounded-full overflow-hidden">
           <div 
             className="absolute inset-y-0 left-0 bg-linear-to-r from-emerald-500 to-teal-500 rounded-full transition-all duration-500 ease-out"
             style={{ width: `${((currentQuestionIndex + 1) / quiz.questions.length) * 100}%` }}
@@ -118,20 +124,20 @@ const QuizTakePage = () => {
       </div>
 
       {/* Question Card */}
-      <div className="bg-white/80 backdrop-blur-xl border-2 border-slate-200 rounded-2xl shadow-xl shadow-slate-200/50 pb-6 mb-8">
-        <div className="inline flex items-center gap-2 px-4 py-2 bg-linear-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-xl mb-6">
-          <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse">
-            <div className="text-sm font-semibold text-emerald-700" />
-            <span className="">
-              Question {currentQuestionIndex + 1}
-            </span>
-          </div>
+      <div className="bg-white/80 backdrop-blur-xl border-2 border-slate-200 rounded-2xl shadow-xl shadow-slate-200/50 p-6 mb-8">
+        <div className="flex items-center gap-2 px-4 py-2 bg-emerald-50 border border-emerald-200 rounded-xl mb-6">
+    <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
 
-          <h3 className="text-lg font-semibold text-slate-900 mb-6 leading-relaxed">
-            {currentQuestion.question}
-          </h3>
+    <span className="text-sm font-semibold text-emerald-700">
+        Question {currentQuestionIndex + 1}
+    </span>
         </div>
+
+        <h3 className="text-lg font-semibold text-slate-900 mb-6 leading-relaxed">
+            {currentQuestion.question}
+        </h3>
       </div>
+      
       {/* Options */}
       <div className="space-y-3">
         {currentQuestion.options.map((option, index) => {
@@ -193,7 +199,7 @@ const QuizTakePage = () => {
           variant="secondary"
           className=""
         >
-          <ChevronLeft className="w-4 h-4 group-hover:translate-x-0.5 trnasition-transform duration-200" strokeWidth={2.5} />
+          <ChevronLeft className="w-4 h-4 group-hover:translate-x-0.5  transition-transform duration-200" strokeWidth={2.5} />
           Previous
         </Button>
 
