@@ -7,6 +7,7 @@ import FlashcardSetCard from '../../components/flashcards/FlashcardSetCard';
 import toast from 'react-hot-toast';
 
 const FlashcardsListPage = () => {
+  console.log("FlashcardListPage mounted");
   const [flashcardSets, setFlashcardSets] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -39,11 +40,15 @@ const FlashcardsListPage = () => {
         />
       );
     }
+    console.log("fetchFlashcardSets___", response);
       //return 
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {flashcardSets.map((set) => (
-            <FlashcardSetCard key={set._id} flashcardSet={set} />
+            <div key={set._id} className="border p-4">
+  {set.title || set._id}
+</div>
+            //<FlashcardSetCard key={set._id} flashcardSet={set} />
           ))}
         </div>
     );

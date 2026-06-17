@@ -42,11 +42,17 @@ const Chat=async(documentId,message)=>{
         const response=await axiosInstance.post(API_PATHS.AI.CHAT,{
             documentId, question:message
         });
+        console.log("CHAT API RESPONSE:", response.data);
         return response.data;
 
     } catch(error){
-        console.log("Actual chat error2:",error)
-        throw error.response?.data||{message:"failed to chat"};
+    console.error("Actual chat error:", error);
+
+    throw (
+        error?.response?.data || {
+            message: error.message || "failed to chat"
+        }
+    );
     }
 };
 
@@ -62,19 +68,25 @@ const explainConcept=async(documentId,concept)=>{
     }
 };
 
-const getChatHistory=async(documentId)=>{
-    try{
-        const response=await axiosInstance.get(API_PATHS.AI.GET_CHAT_HISTORY,{
-            documentId
-        });
-        return response.data;
+const getChatHistory = async (documentId) => {
+  try {
+    const response = await axiosInstance.get(
+      API_PATHS.AI.GET_CHAT_HISTORY(documentId)
+    );
 
-    } catch(error){
-        console.error("Actual chat History error:", error);
-        throw error.response?.data||{message:"failed to get chat history"};
-    }
+    console.log("History response:", response.data);
+
+    return response.data;
+  } catch (error) {
+    console.error("Actual chat History error:", error);
+
+    throw (
+      error.response?.data || {
+        message: "failed to get chat history",
+      }
+    );
+  }
 };
-
 const aiService={
     generateFlashcards,
     generateQuiz,

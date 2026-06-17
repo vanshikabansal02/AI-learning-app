@@ -3,8 +3,9 @@ import Flashcard from '../models/Flashcard.js';
 import Quiz from '../models/Quiz.js';
 import ChatHistory from '../models/ChatHistory.js';
 import * as geminiService from '../utils/geminiService.js';
-import {findRelevantChunks} from '../utils/textChunker.js';
-
+import {
+    findRelevantChunks
+} from '../utils/textChunker.js';
 
 export const generateFlashcards=async(req,res,next)=>{
     try{
@@ -120,116 +121,131 @@ export const generateQuiz = async (req, res, next) => {
 
 export const generateSummary=async(req,res,next)=>{
     try{
-const {documentId}=req.body;
-
-if(!documentId){
-      return res.status(400).json({
-        success:false,
-        error:"please provide document id",
-        statusCode:400
+        const document = await Document.findOne({
+    _id: documentId,
+    userId: req.user._id,
+    status: "ready"
 });
-    }
-    const document=await Document.findOne({
-        _is:documentId,
-        userId:req.user._is,
-        status:"ready"
 
-    });
-    if(!document){
-          return res.status(404).json({
-        success:false,
-        error:"doc not found",
-        statusCode:404
+if (!document) {
+    return res.status(404).json({
+        success: false,
+        error: "doc not found",
+        statusCode: 404
     });
 }
-const summary=await geminiService.generateSummary(document.extractedText);
-res.status(200).json({
-    success:true,
-    data:{
-        documentId:document._id,
-        titlr:document.title,
-        summary
 
+const summary = await geminiService.generateSummary(
+    document.extractedText
+);
+
+res.status(200).json({
+    success: true,
+    data: {
+        documentId: document._id,
+        title: document.title,
+        summary
     },
-    message:"summary generated successfully",
+    message: "summary generated successfully",
 });
-    
   }  catch(error){
         next(error);
     }
 };
 
-export const chat=async(req,res,next)=>{
-    try{
-const {documentId,question}=req.body;
-if(!documentId||!question){
-      return res.status(404).json({
-        success:false,
-        error:"provide document id and question",
-        statusCode:404
-})
-};
-const document=await Document.findOne({
-    _id:documentId,
-userId:req.user._id,
-status:"ready"
-});
+export const chat = async (req, res, next) => {
+    try {
+        const { documentId, question } = req.body;
 
-if(!document){
-      return res.status(404).json({
-        success:false,
-        error:"doc not found",
-        statusCode:404
-});
-}
-//find chats
-const relevantChunks=findRelevantChunks(document.chunks,question,3);
-const chunkIndices=relevantChunks.map(c=>c.chunkIndex);
+        if (!documentId || !question) {
+            return res.status(400).json({
+                success: false,
+                error: "provide document id and question",
+                statusCode: 400
+            });
+        }
 
-//get or create cha history
-let chatHistory=await ChatHistory.findOne({
-    userId:req.user._is,
-    documentId:document._id,
-});
-if(!ChatHistory){
-    chatHistory=await  ChatHistory.create({
-        userid:req.user._id,
-        documentId:document._id,
-        messages:[]
-    });
-}
+        const document = await Document.findOne({
+            _id: documentId,
+            userId: req.user._id,
+            status: "ready"
+        });
 
-//generate response 
-const answer=await geminiService.chatWithContext(question,relevantChunks);
-//save
-chatHistory.messages.push({
-    role:'user',
-    content:question,
-    timestamp:newDate(),
-    relevantChunks:[]
-},
-{
-    role:"assistant",
-    content:answer,
-    timestamp:new Date(),
-    relevantChunks:chunkIndices
-}
-);
-await chatHistory.save();
-res.status(200).json({
-    success:true,
-    data:{
-        question,
-        answer,
-        relevantChunks:chunkIndices,
-        chatHistoryId:chatHistory._id
-    },
-    message:"response generated successfully"
-});
-    
- }catch(error){
-    next(error);
-}    
+        if (!document) {
+            return res.status(404).json({
+                success: false,
+                error: "doc not found",
+                statusCode: 404
+            });
+        }
+
+        const relevantChunks = findRelevantChunks(
+            document.chunks,
+            question,
+            3
+        );
+
+        const chunkIndices = relevantChunks.map(
+            c => c.chunkIndex
+        );
+
+        let chatHistory = await ChatHistory.findOne({
+            userId: req.user._id,
+            documentId: document._id,
+        });
+
+        if (!chatHistory) {
+            chatHistory = await ChatHistory.create({
+                userId: req.user._id,
+                documentId: document._id,
+                messages: []
+            });
+        }
+
+        const answer = await geminiService.chatWithContext(
+            question,
+            relevantChunks
+        );
+
+        chatHistory.messages.push(
+            {
+                role: "user",
+                content: question,
+                timestamp: new Date(),
+                relevantChunks: []
+            },
+            {
+                role: "assistant",
+                content: answer,
+                timestamp: new Date(),
+                relevantChunks: chunkIndices
+            }
+        );
+
+        await chatHistory.save();
+
+        return res.status(200).json({
+            success: true,
+            data: {
+                question,
+                answer,
+                relevantChunks: chunkIndices,
+                chatHistoryId: chatHistory._id
+            },
+            message: "response generated successfully"
+        });
+
+    } catch (error) {
+        console.error("=== CHAT ERROR ===");
+        console.error(error);
+        console.error(error?.message);
+        console.error(error?.stack);
+
+        return res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
 };
 
 export const explainConcept=async(req,res,next)=>{
