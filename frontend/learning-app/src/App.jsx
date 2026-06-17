@@ -40,8 +40,8 @@ const App = () => {
       <Route path='/dashboard' element={<DashboardPage/>}/>
       <Route path='/documents' element={<DocumentListPage/>}/>
       <Route path='/documents/:id' element={<DocumentDetailPage/>}/>
-      <Route path='/flashcard' element={<FlashcardListPage/>}/>
-      <Route path='/documents:id/flashcard' element={<FlashcardPage/>}/>
+      <Route path='/flashcards' element={<FlashcardListPage/>}/>
+      <Route path='/documents/:id/flashcard' element={<FlashcardPage/>}/>
       <Route path='/quizzes/:quizId' element={<QuizTakePage/>}/>
       <Route path='/quizzes/:quizId/results' element={<QuizResultPage/>}/>
       <Route path='/profile' element={<ProfilePage/>}/>

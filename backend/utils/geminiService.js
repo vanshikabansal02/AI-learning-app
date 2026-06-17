@@ -35,7 +35,7 @@ ${text.substring(0, 15000)}`;
     try {
 
         const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash-lite",
+            model: "gemini-2.5-flash",
             contents: prompt,
 
         });
@@ -126,7 +126,7 @@ ${text.substring(0, 15000)}`;
     try {
 
         const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash-lite",
+            model: "gemini-2.5-flash",
             contents: prompt,
         });
 
@@ -219,7 +219,7 @@ ${text.substring(0, 20000)}`;
     try {
 
         const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash-lite",
+            model: "gemini-2.5-flash",
             contents: prompt,
         });
 
@@ -241,9 +241,12 @@ ${text.substring(0, 20000)}`;
  */
 export const chatWithContext = async (question, chunks) => {
 
-    const context = chunks
+    const context =
+    Array.isArray(chunks) && chunks.length
+    ? chunks
         .map((c, i) => `[Chunk ${i + 1}]\n${c.content}`)
-        .join('\n\n');
+        .join("\n\n")
+    : "No relevant context found.";
 
     const prompt = `Based on the following context from a document,
 analyse the context and answer the user's question.
@@ -259,21 +262,34 @@ ${question}
 
 Answer:`;
 
-    try {
 
-        const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash-lite",
-            contents: prompt,
-        });
+try {
+    const response = await ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: prompt,
+    });
 
-        return response.text;
+    return response.text;
 
-    } catch (error) {
+} catch (error) {
 
-        console.error('Gemini API error:', error);
+    if (error.status === 503) {
 
-        throw new Error('Failed to process chat request');
+        await new Promise(resolve =>
+            setTimeout(resolve, 2000)
+        );
+
+        const retryResponse =
+            await ai.models.generateContent({
+                model: "gemini-2.5-flash",
+                contents: prompt,
+            });
+
+        return retryResponse.text;
     }
+
+    throw error;
+}
 };
 
 /**
@@ -296,16 +312,18 @@ ${context.substring(0, 10000)}`;
     try {
 
         const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash-lite",
+            model: "gemini-2.5-flash",
             contents: prompt,
         });
 
         return response.text;
 
     } catch (error) {
+    console.error("=== GEMINI ERROR ===");
+    console.error(error);
+    console.error("Message:", error?.message);
+    console.error("Stack:", error?.stack);
 
-        console.error('Gemini API error:', error);
-
-        throw new Error('Failed to explain concept');
-    }
+    throw error;
+}
 };

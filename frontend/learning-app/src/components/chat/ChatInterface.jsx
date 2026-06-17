@@ -38,35 +38,49 @@ const ChatInterface = () => {
         scrollToBottom();
     },[history]);
 
-    const handleSendMessage=async(e)=>{
-        e.preventDefault();
-        if(!message.trim()) return;
+    const handleSendMessage = async (e) => {
+    e.preventDefault();
 
-        const userMessage={role:'user',content:message,timestamp:new Date() };
-        setHistory(prev=>[...prev,userMessage]);
-        setMessage(' ');
-        setLoading(true);
-        try{
-            const response=await aiService.Chat(documentId,userMessage.content);
-            const assistantMessage={
-                role: 'assistant',
-                content: response.data.answer,
-                timestamp: new Date(),
+    if (!message.trim()) return;
 
-                relevantChunks: response.data.relevantChunks
-            };
-            setHistory(prev=>[...prev,assistantMessage]);
-        } catch(error){
-            console.error('Chat error:',error);
-            const errorMessage={
-                role:'assistant',
-                content:'Sorry, I encountered an error. Please try again.',
-                timestamp:new Date()
-            };
-            setHistory(prev=>[...prev,errorMessage]);
-        }finally{
-            setLoading(false);
-        }
+    const userMessage = {
+        role: 'user',
+        content: message,
+        timestamp: new Date()
+    };
+
+    setHistory(prev => [...prev, userMessage]);
+    setMessage('');
+    setLoading(true);
+
+    try {
+        console.log("START");
+
+        const response = await aiService.Chat(
+            documentId,
+            userMessage.content
+        );
+
+        console.log("SUCCESS", response);
+
+        const assistantMessage = {
+            role: 'assistant',
+            content: response.data.answer,
+            timestamp: new Date(),
+            relevantChunks: response.data.relevantChunks
+        };
+
+        setHistory(prev => [...prev, assistantMessage]);
+
+    } catch (error) {
+
+        console.log("ERROR", error);
+
+    } finally {
+
+        console.log("FINALLY");
+        setLoading(false);
+    }
     };
     const renderMessage=(msg,index)=>{
       const isUser=msg.role==='user';
