@@ -19,12 +19,17 @@ const AIActions = () => {
         setLoadingAction("summary");
 
         try {
-            const { summary } = await aiService.generateSummary(documentId);
+            //const { summary } = await aiService.generateSummary(documentId);
+            const response = await aiService.generateSummary(documentId);
+            console.log("SUMMARY RESULT:", response);
+            const summary=response.data.summary;
+            console.log("SUMMARY TEXT:", summary);
 
             setModalTitle("Generated Summary");
             setModalContent(summary);
             setIsModalOpen(true);
         } catch (error) {
+            console.error("SUMMARY FRONTEND ERROR:", error);
             toast.error("Failed to generate summary.");
         } finally {
             setLoadingAction(null);
@@ -32,7 +37,35 @@ const AIActions = () => {
     };
 
     const handleExplainConcept = async (e) => {
-        e.preventDefault();
+    e.preventDefault();
+
+    if (!concept.trim()) {
+        toast.error("Please enter a concept.");
+        return;
+    }
+
+    try {
+        setLoadingAction("explain");
+
+        const response = await aiService.explainConcept(
+            documentId,
+            concept
+        );
+
+        console.log("EXPLAIN RESPONSE:", response);
+
+        const explanation = response.data.explanation;
+
+        setModalTitle(`Explanation: ${concept}`);
+        setModalContent(explanation);
+        setIsModalOpen(true);
+
+    } catch (error) {
+        console.error("EXPLAIN ERROR:", error);
+        toast.error("Failed to explain concept.");
+    } finally {
+        setLoadingAction(null);
+    }
     };
 
     return (

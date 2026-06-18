@@ -121,7 +121,16 @@ export const generateQuiz = async (req, res, next) => {
 
 export const generateSummary=async(req,res,next)=>{
     try{
-        const document = await Document.findOne({
+        const { documentId } = req.body;
+
+        if (!documentId) {
+            return res.status(400).json({
+                success: false,
+                error: "Please provide documentId",
+                statusCode: 400
+            });
+        }
+    const document = await Document.findOne({
     _id: documentId,
     userId: req.user._id,
     status: "ready"
@@ -138,6 +147,9 @@ if (!document) {
 const summary = await geminiService.generateSummary(
     document.extractedText
 );
+console.log("SUMMARY FROM GEMINI:");
+console.log(summary);
+
 
 res.status(200).json({
     success: true,
@@ -148,9 +160,17 @@ res.status(200).json({
     },
     message: "summary generated successfully",
 });
-  }  catch(error){
-        next(error);
-    }
+  }catch (error) {
+    console.error("=== SUMMARY ERROR ===");
+    console.error(error);
+    console.error(error?.message);
+    console.error(error?.stack);
+
+    return res.status(500).json({
+        success: false,
+        error: error.message
+    });
+  }
 };
 
 export const chat = async (req, res, next) => {
