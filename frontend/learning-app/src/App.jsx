@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router,Routes,Route,Navigate} from 'react-router-dom';
+import HomePage from './pages/Auth/HomePage'
 import NotFoundPage from './pages/NotFoundPage';
 import LoginPage from './pages/Auth/LoginPage';
 import RegisterPage from './pages/Auth/RegisterPage';
@@ -11,7 +12,7 @@ import FlashcardListPage from './pages/Flashcard/FlashcardListPage';
 import FlashcardPage from './pages/Flashcard/FlashcardPage';
 import QuizTakePage from './pages/Quizzes/QuixTakePage';
 import QuizResultPage from './pages/Quizzes/QuizResultPage';
-import ProfilePage from './pages/Profile/ProfilePage';
+import ProfilePage from './pages/Profile/ProfilePage.jsx';
 import { useAuth } from './context/AuthContext';
 const App = () => {
   const {isAuthenticated,loading}=useAuth()
@@ -28,10 +29,11 @@ const App = () => {
  return (
   <Router>
     <Routes>
-      <Route
+     {/* <Route
       path="/"
-      element={isAuthenticated? <Navigate to="/dashboard" replace />:<Navigate to="/login" replace/>}
-      />
+      element={isAuthenticated? <Navigate to="/dashboard" replace />:<Navigate to="/" replace/>}
+      />*/}
+      <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage/>}/>
       <Route path="/register" element={<RegisterPage/>}/>
 

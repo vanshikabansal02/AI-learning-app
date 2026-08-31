@@ -79,7 +79,10 @@ answers.forEach(answer=>{
 
     if(questionIndex<quiz.questions.length){
         const question=quiz.questions[questionIndex];
-        const isCorrect=selectedAnswer===question.correctAnswer;
+        //const isCorrect=selectedAnswer===question.correctAnswer;
+        const correctAnswerIndex = parseInt(question.correctAnswer.substring(1)) - 1;
+
+const isCorrect = selectedAnswer === question.options[correctAnswerIndex];
 
         if(isCorrect) correctCount++;
         userAnswers.push({
