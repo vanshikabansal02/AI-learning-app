@@ -126,3 +126,21 @@ Users can generate and attempt quizzes based on their study material.
         │ Flashcards   │             │ Quizzes      │
         │ Quizzes      │             │ AI Chat      │
         └──────────────┘             └──────────────┘
+
+## ⚙️ Installation & Setup
+
+### 1. Clone the Repository
+
+```bash
+git clone https://example.com/your-github-repository.git
+cd AI-learning-app
+
+### 2. Install Dependencies
+
+```bash
+npm install
+
+### 3. Run the application
+
+```bash
+npm run dev
