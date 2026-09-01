@@ -3,6 +3,9 @@ node_modules/
 npm-debug.log*
 
 # env
+.env
+backend/.env
+frontend/learning-app/.env
 
 
 # build
