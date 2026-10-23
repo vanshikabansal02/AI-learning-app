@@ -249,7 +249,7 @@ export const chat = async (req, res, next) => {
             data: {
                 question,
                 answer,
-                relevantChunks: chunkIndices,
+                
                 chatHistoryId: chatHistory._id
             },
             message: "response generated successfully"
